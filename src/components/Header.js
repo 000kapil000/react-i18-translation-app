@@ -1,21 +1,20 @@
-import { useEffect } from "react";
+import { useEffect,useState } from "react";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import i18next from "i18next";
 
 const Header = () => {
 	const { i18n, t } = useTranslation(["common"]);
+	const [selectedLanguage, setSelectedLanguage] = useState("en"); 
+
 
 	useEffect(() => {
-		if (localStorage.getItem("i18nextLng")?.length > 2) {
-			i18next.changeLanguage("en");
-		}
-	}, []);
-
+	  i18n.changeLanguage(selectedLanguage);
+	}, [i18n, selectedLanguage]);
+  
 	const handleLanguageChange = (e) => {
-		i18n.changeLanguage(e.target.value);
+	  const newLanguage = e.target.value;
+	  setSelectedLanguage(newLanguage);
 	};
-
 	return (
 		<nav className="upper-part navbar navbar-expand-lg navbar-dark bg-dark">
 			<Link className="navbar-brand" to="/">
@@ -46,7 +45,7 @@ const Header = () => {
 					</li>
 					<li className="nav-item">
 						<select
-							className="nav-link bg-dark border-0 ml-1 mr-2" value={localStorage.getItem("i18nextLng")} onChange={handleLanguageChange}
+							className="nav-link bg-dark border-0 ml-1 mr-2" value={selectedLanguage} onChange={handleLanguageChange}
 						>
 							<option value="en">English</option>
 							<option value="fr">Français</option>
